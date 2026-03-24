@@ -1,0 +1,223 @@
+/* Grundlegende Layout- und Typografieeinstellungen */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1b1b1b;
+  color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+/* Screens */
+.screen {
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Buttons */
+button {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  margin: 0.3rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button.primary {
+  background: #6b4fb0;
+}
+
+button.secondary {
+  background: #555;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
+
+.field {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.field label {
+  margin-right: 0.5rem;
+}
+
+.mode-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mode-select button {
+  width: 200px;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Board */
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 100%;
+  max-width: 90vmin;
+  aspect-ratio: 1 / 1;
+  border: 4px solid #444;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  margin: 1rem 0;
+  --light-color: #f0d9b5;
+  --dark-color: #b58863;
+  --half-top-rgb: 255, 255, 255;
+  --half-bottom-rgb: 255, 255, 255;
+}
+
+.board::before,
+.board::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.board::before {
+  top: 0;
+  height: 50%;
+  background: rgba(var(--half-top-rgb), 0.18);
+}
+
+.board::after {
+  bottom: 0;
+  height: 50%;
+  background: rgba(var(--half-bottom-rgb), 0.18);
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8vmin;
+  cursor: pointer;
+}
+
+.cell.light {
+  background-color: var(--light-color);
+}
+.cell.dark {
+  background-color: var(--dark-color);
+}
+
+.cell.highlight-move {
+  outline: 4px solid rgba(255, 255, 0, 0.6);
+}
+
+.cell.highlight-check {
+  box-shadow: inset 0 0 10px 4px rgba(255, 0, 0, 0.8);
+}
+
+.piece {
+  pointer-events: none;
+  font-size: 3vmin;
+  line-height: 1;
+}
+
+/* Top and bottom bars */
+.top-bar, .bottom-bar {
+  width: 100%;
+  max-width: 90vmin;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.player-info {
+  flex: 1;
+  text-align: center;
+}
+
+.player-info span {
+  display: block;
+}
+
+.status {
+  flex: 2;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Overlay für Sieg/Niederlage */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.overlay-content {
+  background: #2b2b2b;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+/* Animations */
+.capture-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  /* Längere Animation, damit der Schlag effektvoller wirkt */
+  animation: fadeOut 3.5s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}

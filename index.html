@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hogwarts Zauberschach</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome für Figuren und Symbole -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-y9f+G5CaKzngakdUSHhDuD1ynjUTduV1JN9WewtG/XAIN5eVwZsM+dAf5BgU984wgKLF6t84yMDcZh+W7PRA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <!-- Chess.js für die lokale Logik -->
+  <script src="https://cdn.jsdelivr.net/npm/chess.js@1.0.0/dist/chess.min.js"></script>
+  <!-- Socket.IO Client für Online-Partien -->
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Startbildschirm -->
+    <div id="start-screen" class="screen">
+      <h1>Hogwarts&nbsp;Zauberschach</h1>
+      <div class="mode-select">
+        <h2>Spielmodus wählen</h2>
+        <button id="btn-local" class="primary">Lokal (2 Spieler)</button>
+        <button id="btn-online" class="primary">Online</button>
+      </div>
+      <div id="mode-options" class="hidden">
+        <h2>Partie‑Einstellungen</h2>
+        <div class="field">
+          <label for="time-select">Zeitmodus:</label>
+          <select id="time-select">
+            <option value="0">Ohne Uhr</option>
+            <option value="60">Blitz (1 Min)</option>
+            <option value="180">Schnell (3 Min)</option>
+            <option value="300">Klassisch (5 Min)</option>
+            <option value="600">Lange (10 Min)</option>
+          </select>
+        </div>
+        <div id="house-select-local" class="field hidden">
+          <label>Häuser (Spieler&nbsp;A / Spieler&nbsp;B):</label>
+          <select id="house-a-select">
+            <option value="gryffindor">Gryffindor</option>
+            <option value="slytherin">Slytherin</option>
+            <option value="ravenclaw">Ravenclaw</option>
+            <option value="hufflepuff">Hufflepuff</option>
+          </select>
+          <span>vs.</span>
+          <select id="house-b-select">
+            <option value="slytherin">Slytherin</option>
+            <option value="gryffindor">Gryffindor</option>
+            <option value="ravenclaw">Ravenclaw</option>
+            <option value="hufflepuff">Hufflepuff</option>
+          </select>
+        </div>
+        <div id="house-select-online" class="field hidden">
+          <label>Dein Haus:</label>
+          <select id="house-self-select">
+            <option value="gryffindor">Gryffindor</option>
+            <option value="slytherin">Slytherin</option>
+            <option value="ravenclaw">Ravenclaw</option>
+            <option value="hufflepuff">Hufflepuff</option>
+          </select>
+        </div>
+        <div id="online-options" class="hidden">
+          <h3>Online‑Raum</h3>
+          <div id="create-join-buttons">
+            <button id="btn-create-room" class="primary">Raum erstellen</button>
+            <button id="btn-join-room" class="primary">Raum beitreten</button>
+          </div>
+          <div id="create-room-form" class="hidden">
+            <p>Dein Raumcode (Emoji): <strong id="room-code-display"></strong></p>
+            <p><small>Kopiere diesen Code und teile ihn mit deinem Gegner.</small></p>
+            <button id="btn-wait" class="primary">Warten auf Gegner</button>
+            <button id="btn-cancel-create" class="secondary">Abbrechen</button>
+          </div>
+          <div id="join-room-form" class="hidden">
+            <label for="room-code-input">Raumcode eingeben:</label>
+            <input id="room-code-input" type="text" placeholder="🧙🦉🔮" />
+            <button id="btn-submit-join" class="primary">Beitreten</button>
+            <button id="btn-cancel-join" class="secondary">Abbrechen</button>
+          </div>
+          <div id="lobby" class="hidden">
+            <p>Warten auf zweiten Spieler …</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="btn-start" class="primary hidden">Spiel starten</button>
+          <button id="btn-back" class="secondary">Zurück</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spielbereich -->
+    <div id="game-screen" class="screen hidden">
+      <div class="top-bar">
+        <div id="player-info-a" class="player-info"></div>
+        <div id="status-info" class="status"></div>
+        <div id="player-info-b" class="player-info"></div>
+      </div>
+      <div id="board" class="board"></div>
+      <div class="bottom-bar">
+        <button id="btn-restart" class="secondary">Neu starten</button>
+        <button id="btn-menu" class="secondary">Zum Menü</button>
+      </div>
+    </div>
+
+    <!-- Siegeranzeige -->
+    <div id="overlay" class="overlay hidden">
+      <div id="overlay-content" class="overlay-content"></div>
+      <button id="btn-overlay-close" class="primary">Zurück zum Menü</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
